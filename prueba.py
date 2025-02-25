@@ -1,15 +1,17 @@
 import random
 #Acciones
-class informacionPersona:
-    def __init__(self,nombre,pais):
-      self.nombre = nombre
-      self.pais = pais
-nombre=str(input("Ingrese su nombre: "))
-pais=str(input("ingrese su pais: "))
-persona1 =informacionPersona(nombre,pais)
 
+def registroEvento():
+    cantidad_participantes =int(input("Ingrese la cantidad de participantes: "))
+    nombre_participantes=[]
+    pais_participantes =[]
+    
+    for i in range(cantidad_participantes):
+       nombre_participante =(input("Ingrese el nombre del participante: "))
+       pais_participante=(input("Ingrese pais del participante: "))
+       nombre_participantes.append(nombre_participante)
+       pais_participantes.append(pais_participante)
 
-def elegirEvento():
     cantidad_eventos=int(input("Ingrese la cantidad de eventos: "))
     lista_eventos=[]
 
@@ -23,14 +25,7 @@ def elegirEvento():
     else:
        print("Ningun evento fue seleccionado")
        
-       
-
-
-
-
-    
-
-elegirEvento()
+registroEvento()
 
 
 
