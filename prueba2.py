@@ -25,7 +25,8 @@ def ingresar_informacion_viaje():
     viajes=[]
     cant_viajes = int(input("Ingrese la cantidad de viajes: "))
 
-    for i in range(cant_viajes):  
+    for i in range(cant_viajes): 
+        print(f"Viaje {i+1}")
         
 
         while True:  
@@ -75,7 +76,7 @@ def ingresar_informacion_pasajero():
     cant_pasajeros = int(input("Ingrese la cantidad de pasajeros")) 
 
     for i in range(cant_pasajeros):
-        
+        print(f"Pasajero {i+1}")
 
         while True:
             nom_pasajero=(input("Ingrese el nombre del pasajero: "))
