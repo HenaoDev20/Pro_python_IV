@@ -22,91 +22,87 @@
    #- El promedio de edad de los pasajeros
 
 def ingresar_informacion_viaje():
-    viajes = []
-    cant_viajes = int(input("Ingrese la cantidad de viajes: "))
+    viajes = []  
+    
+    while True:
+        try:
+            cant_viajes = int(input("Ingrese la cantidad de viajes: "))
+            if cant_viajes <= 0:
+                print("Debe ingresar un número mayor a cero.")
+            else:
+                print(f"La cantidad de viajes es: {cant_viajes}")
+                break
+        except ValueError:
+            print("Solo puede ingresar números")
 
     for i in range(cant_viajes): 
         print(f"\nViaje {i+1}")
+
         while True:  
             c_origen = input("Ingresar la ciudad de origen: ")
-            try:
-                if float(c_origen):  
-                    print("No se puede ingresar un número como ciudad")
-            except ValueError:
-                if c_origen == "":  
-                    print("Este campo no puede estar vacío")
-                else:
-                    print(f"Ciudad de origen registrada exitosamente...")
-                    break  
+            if c_origen.strip() == "":
+                print("Este campo no puede estar vacío")
+            elif c_origen.isnumeric():
+                print("No se puede ingresar un número como ciudad")
+            else:
+                break  
 
         while True:
             c_destino = input("Ingresar la ciudad de destino: ")
-            try:
-                if float(c_destino):  
-                    print("No se puede ingresar un número como ciudad")
-            except ValueError:
-                if c_destino == "":
-                    print("Este campo no puede estar vacío")
-                else:
-                    print(f"Ciudad de destino registrada exitosamente")
-                    break
+            if c_destino.strip() == "":
+                print("Este campo no puede estar vacío")
+            elif c_destino.isnumeric():
+                print("No se puede ingresar un número como ciudad")
+            else:
+                break
 
         while True:
             costo_pasaje = input("Ingresar el costo del pasaje: ")
             try:
                 costo_pasaje = float(costo_pasaje)
-                print(f"El costo es: {costo_pasaje}")
                 break
             except ValueError:
                 print("No se pueden ingresar letras, solo números")
 
-        # Registrar pasajeros para este viaje
         pasajeros = []
-        cant_pasajeros = int(input(f"\nIngrese la cantidad de pasajeros para el viaje: "))
-       
+        while True:
+            try:
+                cant_pasajeros = int(input(f"Ingrese la cantidad de pasajeros para el viaje: "))
+                break
+            except ValueError:
+                print("Ingrese un número válido")
 
         for j in range(cant_pasajeros):
             print(f"\nPasajero {j+1}")
-
             while True:
                 nom_pasajero = input("Ingrese el nombre del pasajero: ")
-                try:
-                    if float(nom_pasajero):  
-                        print("No se puede ingresar un número como nombre")
-                except ValueError:
-                    if nom_pasajero == "":
-                        print("El nombre no puede estar vacío")
-                    else:
-                        print(f"El nombre del pasajero registrado exitosamente...")
-                        break
+                if nom_pasajero.strip() == "":
+                    print("El nombre no puede estar vacío")
+                elif nom_pasajero.isnumeric():
+                    print("No se puede ingresar un número como nombre")
+                else:
+                    break
 
             while True:
                 edad_pasajero = input("Ingresar la edad del pasajero: ")
                 try:
                     edad_pasajero = int(edad_pasajero)
-                    print(f"La edad del pasajero registrada exitosamente...")
                     break
                 except ValueError:
                     print("No se pueden ingresar letras, solo números")
 
             while True:
-                try:
-                    genero_pasajero = input("Ingrese el género del pasajero (m o f): ")
-                    if (genero_pasajero == "m" ) :
-                        print(f"El género es masculino{genero_pasajero}")
-                    elif(genero_pasajero== "f"):
-                        print(f"El genero es :{genero_pasajero}")
+                genero_pasajero = input("Ingrese el género del pasajero (m o f): ")
+                if genero_pasajero in ["m", "f"]:
                     break
-                except ValueError:
+                else:
                     print("Debe ingresar 'm' o 'f'")
-             
 
             pasajeros.append({
                 "nombre": nom_pasajero,
                 "edad": edad_pasajero,
                 "genero": genero_pasajero
             })
-           
 
         viajes.append({
             "origen": c_origen,
@@ -115,7 +111,8 @@ def ingresar_informacion_viaje():
             "pasajeros": pasajeros
         })
 
-    return viajes  
+    return viajes
+
 
 
 def total_pasajeros(viajes):
@@ -129,6 +126,21 @@ def total_dinero_recaudado(viajes):
     for viaje in viajes:
         total_dinero_recaudado += viaje["costo"] * len(viaje["pasajeros"]) 
     return total_dinero_recaudado
+
+def total_dinero_por_genero(viajes):
+    total_mujeres = 0
+    total_hombres = 0
+
+    for viaje in viajes:
+        costo = viaje["costo"]
+        for pasajero in viaje["pasajeros"]:
+            if pasajero["genero"] == "f":
+                total_mujeres += costo
+            elif pasajero["genero"] == "m":
+                total_hombres += costo
+
+    return total_mujeres, total_hombres
+
   
 def mostrar_informacion_completa():
     viajes = ingresar_informacion_viaje()
@@ -149,6 +161,10 @@ def mostrar_informacion_completa():
             
     print(f"Total de pasajeros: {total_pasajeros(viajes)}")
     print(f"Total de dinero recaudado:{total_dinero_recaudado(viajes)}")
+    mujeres, hombres = total_dinero_por_genero(viajes)
+    print(f"Total recaudado por mujeres: ${mujeres}")
+    print(f"Total recaudado por hombres: ${hombres}")
+    
 
 
 mostrar_informacion_completa()
