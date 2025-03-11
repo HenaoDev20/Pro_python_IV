@@ -3,12 +3,16 @@ def ingresar_informacion_viaje():
     viajes = []  
     
     while True:
-        try:
-            cant_viajes = int(input("Ingrese la cantidad de viajes: "))
+     try:
+        cant_viajes = int(input("Ingrese la cantidad de viajes: "))
+        if cant_viajes < 0:
+            print('La cantidad de viajes no puede ser negativa')
+        else:
             break
-        except ValueError:
-            print("Solo puede ingresar números")
+     except ValueError:
+        print('La cantidad de viajes debe ser un número válido')
 
+       
     for i in range(cant_viajes): 
         print(f"\nViaje {i+1}")
 
@@ -31,20 +35,26 @@ def ingresar_informacion_viaje():
                 break
 
         while True:
-            costo_pasaje = input("Ingresar el costo del pasaje: ")
             try:
-                costo_pasaje = float(costo_pasaje)
+             costo_pasaje = float(input("Ingresar el costo del pasaje: "))
+             if costo_pasaje < 0:
+                 print("El costo del pasaje no puede ser negativo")
+             else:
                 break
             except ValueError:
-                print("No se pueden ingresar letras, solo números")
+             print("No se pueden ingresar letras, solo números")
+
 
         pasajeros = []
         while True:
-            try:
-                cant_pasajeros = int(input(f"Ingrese la cantidad de pasajeros para el viaje: "))
+         try:
+             cant_pasajeros = int(input("Ingrese la cantidad de pasajeros: "))
+             if cant_pasajeros < 0:
+              print('La cantidad de viajes no puede ser negativa')
+             else:
                 break
-            except ValueError:
-                print("Ingrese un número válido")
+         except ValueError:
+            print('La cantidad de viajes debe ser un número válido')
 
         for j in range(cant_pasajeros):
             print(f"\nPasajero {j+1}")
@@ -59,10 +69,14 @@ def ingresar_informacion_viaje():
 
             while True:
                 try:
-                    edad_pasajero = input("Ingresar la edad del pasajero: ")
+                 edad_pasajero = int(input("Ingresar la edad del pasajero: "))
+                 if edad_pasajero < 0:
+                   print("No se pueden ingresar números negativos")
+                 else:
                     break
                 except ValueError:
-                    print("No se pueden ingresar letras, solo números")
+                 print("No se pueden ingresar letras, solo números")
+ 
 
             while True:
                 genero_pasajero = input("Ingrese el género del pasajero (m o f): ")
@@ -95,19 +109,19 @@ def ingresar_informacion_viaje():
     return viajes
 
 
-
+#1
 def total_pasajeros(viajes):
     pasajeros_totales = 0
     for viaje in viajes:
         pasajeros_totales += len(viaje["pasajeros"]) 
     return pasajeros_totales
-
+#2
 def total_dinero_recaudado(viajes):
     total_dinero_recaudado= 0
     for viaje in viajes:
         total_dinero_recaudado += viaje["costo"] * len(viaje["pasajeros"]) 
     return total_dinero_recaudado
-
+#3
 def total_dinero_por_genero(viajes):
     total_mujeres = 0
     total_hombres = 0
@@ -121,7 +135,7 @@ def total_dinero_por_genero(viajes):
                 total_hombres += costo
 
     return total_mujeres, total_hombres
-
+#4
 def total_descuento_estudiantes(viajes):
     total_descuento = 0
 
@@ -133,7 +147,7 @@ def total_descuento_estudiantes(viajes):
                 total_descuento += descuento
 
     return total_descuento
- 
+ #5
 def viaje_mayor_recaudacion(viajes):
     mayor_recaudacion = 0
     viaje_mayor = None
@@ -148,7 +162,7 @@ def viaje_mayor_recaudacion(viajes):
         print(f"\n El viaje que más recaudó fue de {viaje_mayor['origen']} a {viaje_mayor['destino']}, recaudo en total: ${mayor_recaudacion:}")
     else:
         print("\nNo hay viajes registrados.")
-
+#6
 def promedio_edad_pasajeros(viajes):
     suma_edades = 0
     total_pasajeros = 0
@@ -181,20 +195,20 @@ def mostrar_informacion_completa():
                 print(f"  - Pasajero {j+1}: {pasajero['nombre']}, {pasajero['edad']} años, Género: {pasajero['genero']}, Es estudiante: {pasajero['estudiante']}")
         else:
             print("  No hay pasajeros en este viaje.")
-            
+     #1       
     print(f"Total de pasajeros: {total_pasajeros(viajes)}")
-
+     #2
     print(f"Total de dinero recaudado:{total_dinero_recaudado(viajes)}")
-
+    #3
     mujeres, hombres = total_dinero_por_genero(viajes)
     print(f"Total recaudado por mujeres: ${mujeres}")
     print(f"Total recaudado por hombres: ${hombres}")
-
+    #4
     descuento_total = total_descuento_estudiantes(viajes)
     print(f"Total de descuento aplicado a los pasajeros estudiantes: ${descuento_total:}")
-
+    #5
     viaje_mayor_recaudacion(viajes)
-
+    #6
     promedio_edad_pasajeros(viajes)
 
 
