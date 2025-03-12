@@ -152,7 +152,7 @@ def viaje_mayor_recaudacion(viajes):
     mayor_recaudacion = 0
     viaje_mayor = None
 
-    for viaje in viajes:
+    for viaje in viajes: 
         recaudacion = viaje["costo"] * len(viaje["pasajeros"])
         if recaudacion > mayor_recaudacion:
             mayor_recaudacion = recaudacion
@@ -177,18 +177,32 @@ def promedio_edad_pasajeros(viajes):
         print(f"\n El promedio de edad de los pasajeros es: {promedio:} años")
     else:
         print("\nNo hay pasajeros registrados.")
+#7
 
+def promedio_edad_mujeres(viajes):
+    sum_edades_mujeres=0
+    total_mujeres=0
+    for viaje in viajes:
+        for pasajero in viaje["pasajeros"]:
+            if pasajero["genero"]=="f":
+             sum_edades_mujeres += int(pasajero["edad"])
+             total_mujeres += 1
+             if total_mujeres >0:
+              promedio = sum_edades_mujeres/total_mujeres
+            print(f"El promedio de edad de las mujeres es: {promedio}")
+            
+       
 
 def mostrar_informacion_completa():
     viajes = ingresar_informacion_viaje()
 
     print("\n Informacion del viaje y sus pasajeros :")
-    #En cada vuelta del for, Python toma un diccionario de la lista viajes y lo asigna a la variable viaje automáticamente.
+   
     for i, viaje in enumerate(viajes):
         print(f"\nViaje {i+1}: De {viaje['origen']} a {viaje['destino']} - Costo: ${viaje['costo']}")
 
 
-#Si "pasajeros" contiene una lista con elementos (o sea, hay pasajeros), la condición es True y entra al if.
+
         if viaje["pasajeros"]:
             print("Pasajeros:")
             for j, pasajero in enumerate(viaje["pasajeros"]):
@@ -210,6 +224,9 @@ def mostrar_informacion_completa():
     viaje_mayor_recaudacion(viajes)
     #6
     promedio_edad_pasajeros(viajes)
+    #7
+    promedio_edad_mujeres(viajes)
+
 
 
 
