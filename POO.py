@@ -4,6 +4,7 @@ class Vehiculo:
         self.modelo = modelo
         self.año = año
 
+   
     def mostrar_informacion(self):  
         print(f"Marca: {self.marca}, Modelo: {self.modelo}, Año: {self.año}")
 
@@ -31,7 +32,6 @@ class Motocicleta(Vehiculo):
 
 auto = Automovil("Toyota", "Corolla", 2022, 4)
 moto = Motocicleta("Yamaha", "YBR", 2020, 150)
-
 
 auto.mostrar_informacion()
 print()  
