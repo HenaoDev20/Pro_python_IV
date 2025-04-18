@@ -103,6 +103,7 @@ class Alquiler(Inmueble):
         self.mes_final = mes_final.capitalize()
         self.porcentaje = porcentaje
         self.list_meses=[]
+        self.precio_alquiler=0
         self.calcular_meses_contrato()
 
     def calcular_meses_contrato(self):
@@ -111,25 +112,25 @@ class Alquiler(Inmueble):
             indice_final = self.meses.index(self.mes_final)
             if indice_final >= indice_inicio:
                 self.list_meses = self.meses[indice_inicio:indice_final + 1]
+                self.precio_alquiler = self._precio * len(self.list_meses) 
             else:
                 print("El mes final no puede ser anterior al mes inicial.")
         else:
             print("Mes inicial o final inválido.")
-
-    def accion_por_proposito(self):
-        return f"{self.nombre} alquilada exitosamente."
-
+    
     def mostrar_detalles_contrato(self):
         if self.list_meses:
             print(f"Duración del contrato: {len(self.list_meses)} meses")
             print(f"Meses de alquiler: {', '.join(self.list_meses)}")
         else:
             print("No hay meses registrados para este contrato.")
-
-
-            
+    
+    @property
+    def precio_total_alquiler(self):
+        return self.precio_alquiler
     
     def accion_por_proposito(self):
+        print(f"El precio por {len(self.list_meses)} meses de alquiler es: {self.precio_alquiler}")
         return f"{self.nombre} alquilada exitosamente."
     
 while True:
@@ -209,6 +210,7 @@ def mostrar_informcacion():
 
         if isinstance(inmueble, Alquiler):
             inmueble.mostrar_detalles_contrato()
+            print(f"precio total del alquiler es : {inmueble.precio_total_alquiler}")
        
     
 
