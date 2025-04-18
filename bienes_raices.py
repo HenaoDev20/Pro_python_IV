@@ -93,6 +93,8 @@ class Venta(Inmueble):
 
  
 class Alquiler(Inmueble):
+    ganancia_inmobiliaria=0  
+    comision_alquiler= 0
     meses = [
     "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
@@ -101,9 +103,8 @@ class Alquiler(Inmueble):
         super().__init__(nombre, proposito, precio)
         self.mes_inicio = mes_inicio.capitalize()
         self.mes_final = mes_final.capitalize()
-        self.porcentaje = porcentaje
+        self.comision_alquiler = porcentaje / 100  
         self.list_meses=[]
-        self.precio_alquiler=0
         self.calcular_meses_contrato()
 
     def calcular_meses_contrato(self):
@@ -128,10 +129,13 @@ class Alquiler(Inmueble):
     @property
     def precio_total_alquiler(self):
         return self.precio_alquiler
-    
+ 
     def accion_por_proposito(self):
+        self.ganancia_inmobiliaria = self._precio * len(self.list_meses) * self.comision_alquiler
+        print(f"La comision por alquiler es: {self.ganancia_inmobiliaria}")
         print(f"El precio por {len(self.list_meses)} meses de alquiler es: {self.precio_alquiler}")
         return f"{self.nombre} alquilada exitosamente."
+    
     
 while True:
     try:
@@ -181,37 +185,97 @@ for i in range(can_registros):
                 print(f"Error: {e}. Intente nuevamente.")
 
         inmueble = Venta(nombre, proposito, precio, asesor)
+        
     elif proposito == 'a':
        while True:
-            mes_inicio = input("Mes en el que desea iniciar el contrato: ").capitalize().strip()
-            mes_final = input("Mes en el que desea terminar el contrato: ").capitalize().strip()
+        mes_inicio = input("Mes en el que desea iniciar el contrato: ").capitalize().strip()
+        mes_final = input("Mes en el que desea terminar el contrato: ").capitalize().strip()
 
-            if mes_inicio in Alquiler.meses and mes_final in Alquiler.meses:
-                break
-            else:
-                print(f"Mes inicial '{mes_inicio}' o mes final '{mes_final}' inválido.")
-                print("Los meses deben ser con la inicial en mayuscula\n")
+        if mes_inicio in Alquiler.meses and mes_final in Alquiler.meses:
+            break
+        else:
+            print(f"Mes inicial '{mes_inicio}' o mes final '{mes_final}' inválido.")
+            print("Los meses deben ser con la inicial en mayúscula\n")
 
-while True:
-    try:
-        porcentaje = float(input("Ingrese la cantidad de porcentaje pactado con el dueño: "))
-        break
-    except ValueError:
-        print("Porcentaje inválido. Debe ser un número.")
+       porcentaje = float(input("Ingrese la cantidad de porcentaje pactado con el dueño: "))
+       inmueble = Alquiler(nombre, proposito, precio, mes_inicio, mes_final, porcentaje)
 
-inmueble = Alquiler(nombre, proposito, precio, mes_inicio, mes_final, porcentaje)
 
-       
+def calcular_total_ingresos():
+    total = 0
+    for inmueble in Inmueble.inmueble_list:
+        if isinstance(inmueble, Venta):
+            total += inmueble.precio * Venta.comision_venta
+        elif isinstance(inmueble, Alquiler):
+            total += inmueble.ganancia_inmobiliaria
+    return total
+
+def comparar_ingresos():
+    total_ventas = 0
+    total_alquileres = 0
+
+    for inmueble in Inmueble.inmueble_list:
+        if isinstance(inmueble, Venta):
+            total_ventas += inmueble.precio * Venta.comision_venta
+        elif isinstance(inmueble, Alquiler):
+            total_alquileres += inmueble.ganancia_inmobiliaria
+
+    print("\n--- Comparación de Ingresos ---")
+    print(f"Total por ventas: {total_ventas}")
+    print(f"Total por alquileres: {total_alquileres}")
+
+    if total_ventas > total_alquileres:
+        print(" Se gana más dinero por VENTAS.")
+    elif total_alquileres > total_ventas:
+        print(" Se gana más dinero por ALQUILERES.")
+    else:
+        print(" Las ganancias por ventas y alquileres son iguales.")
+
+
+def mes_mayor_ganancia_alquiler():
+    max_ganancia = 0
+    mes_max = ""
+
+    for inmueble in Inmueble.inmueble_list:
+        if isinstance(inmueble, Alquiler):
+            for mes in inmueble.list_meses:
+               
+                ganancia_mes = inmueble.precio * inmueble.comision_alquiler
+                if ganancia_mes > max_ganancia:
+                    max_ganancia = ganancia_mes
+                    mes_max = mes
+    if mes_max:
+        print(f"\n El mes con más ganancias por alquiler es: {mes_max} con ${max_ganancia} de ganancia.")
+    else:
+        print("\nNo hay registros de alquiler para mostrar.")
+
+def calcular_total_comisiones_venta():
+    total_comisiones = 0
+
+    for inmueble in Inmueble.inmueble_list:
+        if isinstance(inmueble, Venta):
+            comision_venta = inmueble.precio * Venta.comision_venta
+            total_comisiones += comision_venta
+
+    print(f"\nTotal de comisiones por concepto de ventas: ${total_comisiones}")
+
+
+
 def mostrar_informcacion():
     print("\nLista de Inmuebles Registrados:")
     for inmueble in Inmueble.inmueble_list:
-        print(f"--Nombre: {inmueble.nombre}|Propósito: {inmueble.proposito}|Precio: {inmueble.precio}")
+        print(f"--Nombre: {inmueble.nombre} |Propósito: {inmueble.proposito} |Precio: {inmueble.precio}")
         print(inmueble.accion_por_proposito())
+ 
 
         if isinstance(inmueble, Alquiler):
             inmueble.mostrar_detalles_contrato()
-            print(f"precio total del alquiler es : {inmueble.precio_total_alquiler}")
-       
+    print("--Total de ganancias de la inmobiliaria:--", calcular_total_ingresos())
+    
     
 
 mostrar_informcacion()
+comparar_ingresos()
+mes_mayor_ganancia_alquiler()
+calcular_total_comisiones_venta()
+
