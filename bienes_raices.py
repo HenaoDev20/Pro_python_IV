@@ -278,4 +278,3 @@ mostrar_informcacion()
 comparar_ingresos()
 mes_mayor_ganancia_alquiler()
 calcular_total_comisiones_venta()
-
