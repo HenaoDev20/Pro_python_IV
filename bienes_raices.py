@@ -107,23 +107,30 @@ class Alquiler(Inmueble):
         self.list_meses = []
         self.calcular_meses_contrato()
 
+    @staticmethod
+    def validar_porcentaje(valor):
+        if not isinstance(valor, (int, float)):
+            raise ValueError("El porcentaje debe ser un número.")
+        if valor < 0 or valor > 100:
+            raise ValueError("El porcentaje debe estar entre 0 y 100.")
     @property
     def porcentaje(self):
         return self._porcentaje
 
     @porcentaje.setter
     def porcentaje(self, valor):
-        if not isinstance(valor, (int, float)):
-            raise ValueError("El porcentaje debe ser un número.")
-        if valor < 0 or valor > 100:
-            raise ValueError("El porcentaje debe estar entre 0 y 100.")
+        Alquiler.validar_porcentaje(valor)
         self._porcentaje = valor
         self.comision_alquiler = valor / 100
+ 
+
 
     def calcular_meses_contrato(self):
         if self.mes_inicio in self.meses and self.mes_final in self.meses:
             indice_inicio = self.meses.index(self.mes_inicio)
+
             indice_final = self.meses.index(self.mes_final)
+
             if indice_final >= indice_inicio:
                 self.list_meses = self.meses[indice_inicio:indice_final + 1]
                 self.precio_alquiler = self._precio * len(self.list_meses)
@@ -215,7 +222,7 @@ for i in range(can_registros):
                 inmueble = Alquiler(nombre, proposito, precio, mes_inicio, mes_final, porcentaje)
                 break
             except ValueError as e:
-                print(f"Error: {e}. Intente nuevamente.")
+                print(f"Error: Debe ser un numero del 1 al 100 Intente nuevamente.")
 
 def calcular_total_ingresos():
     total = 0
