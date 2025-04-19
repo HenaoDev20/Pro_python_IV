@@ -123,8 +123,6 @@ class Alquiler(Inmueble):
         self._porcentaje = valor
         self.comision_alquiler = valor / 100
  
-
-
     def calcular_meses_contrato(self):
         if self.mes_inicio in self.meses and self.mes_final in self.meses:
             indice_inicio = self.meses.index(self.mes_inicio)
